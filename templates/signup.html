@@ -1,0 +1,45 @@
+<!-- templates/signup.html -->
+{% extends "layout.html" %}
+{% block content %}
+<h2>Sign Up</h2>
+<form action="{{ url_for('signup') }}" method="post" id="signup-form">
+    <label for="username">Username:</label>
+    <input type="text" name="username" id="username" required>
+    <span id="username-error" class="error"></span><br>
+
+    <label for="password">Password:</label>
+    <input type="password" name="password" id="password" required>
+    <span id="password-error" class="error"></span><br>
+
+    <button type="submit">Sign Up</button>
+</form>
+
+<script>
+    // Client-side validation
+    document.getElementById('signup-form').addEventListener('submit', function(event) {
+        let valid = true;
+
+        // Validate username
+        const username = document.getElementById('username').value;
+        if (username.length < 3) {
+            valid = false;
+            document.getElementById('username-error').innerText = 'Username must be at least 3 characters.';
+        } else {
+            document.getElementById('username-error').innerText = '';
+        }
+
+        // Validate password
+        const password = document.getElementById('password').value;
+        if (password.length < 5) {
+            valid = false;
+            document.getElementById('password-error').innerText = 'Password must be at least 5 characters.';
+        } else {
+            document.getElementById('password-error').innerText = '';
+        }
+
+        if (!valid) {
+            event.preventDefault();
+        }
+    });
+</script>
+{% endblock %}

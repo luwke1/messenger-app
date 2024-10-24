@@ -1,0 +1,45 @@
+<!-- templates/send_message.html -->
+{% extends "layout.html" %}
+{% block content %}
+<h2>Send Message</h2>
+<form action="{{ url_for('send_message') }}" method="post" id="send-message-form">
+    <label for="to_username">To (Username):</label>
+    <input type="text" name="to_username" id="to_username" required>
+    <span id="username-error" class="error"></span><br>
+
+    <label for="message">Message:</label>
+    <textarea name="message" id="message" required></textarea>
+    <span id="message-error" class="error"></span><br>
+
+    <button type="submit">Send</button>
+</form>
+
+<script>
+    // Client-side validation
+    document.getElementById('send-message-form').addEventListener('submit', function(event) {
+        let valid = true;
+
+        // Validate recipient username
+        const toUsername = document.getElementById('to_username').value;
+        if (toUsername.trim() === '') {
+            valid = false;
+            document.getElementById('username-error').innerText = 'Recipient username is required.';
+        } else {
+            document.getElementById('username-error').innerText = '';
+        }
+
+        // Validate message
+        const message = document.getElementById('message').value;
+        if (message.trim() === '') {
+            valid = false;
+            document.getElementById('message-error').innerText = 'Message cannot be empty.';
+        } else {
+            document.getElementById('message-error').innerText = '';
+        }
+
+        if (!valid) {
+            event.preventDefault();
+        }
+    });
+</script>
+{% endblock %}

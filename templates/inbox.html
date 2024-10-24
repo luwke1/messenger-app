@@ -1,0 +1,38 @@
+<!-- templates/inbox.html -->
+{% extends "layout.html" %}
+{% block content %}
+<h2>Inbox</h2>
+<ul id="messages-list">
+    {% for message in messages %}
+        <li>
+            From: {{ message['sender_username'] }}<br>
+            <span class="encrypted-message" data-message="{{ message['message_encrypted'] }}">
+                [Encrypted Message]
+            </span>
+        </li>
+    {% else %}
+        <li>No messages.</li>
+    {% endfor %}
+</ul>
+
+<script src="{{ url_for('static', filename='js/decrypt_messages.js') }}"></script>
+<script>
+    // Fetch the decrypted private key from the server
+    fetch('/get_private_key')
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert('Error fetching private key: ' + data.error);
+            return;
+        }
+
+        const privateKeyPem = atob(data.private_key); // Decode base64
+
+        // Initialize decryption with the private key
+        decryptMessages(privateKeyPem);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+</script>
+{% endblock %}
