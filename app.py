@@ -29,10 +29,6 @@ def derive_key(password, salt):
 
 # Function to encrypt the private key
 def encrypt_private_key(private_key, password):
-    """
-    Encrypt the private key using AES encryption with a key derived from the password.
-    Returns the concatenation of salt + iv + ciphertext.
-    """
     salt = get_random_bytes(16)  # Generate a random salt
     key = derive_key(password, salt)  # Derive a symmetric key
     cipher = AES.new(key, AES.MODE_CBC)  # Initialize cipher in CBC mode
