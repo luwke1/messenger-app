@@ -1,16 +1,14 @@
-// static/js/decrypt_messages.js
-
 function decryptMessages(privateKeyPem) {
     // Import the private key using Forge
     fetch('https://cdnjs.cloudflare.com/ajax/libs/forge/0.10.0/forge.min.js')
     .then(response => response.text())
     .then(scriptContent => {
-        // Load forge library
+        // Load forge library, was recommended to use this from chatgpt and online
         const script = document.createElement('script');
         script.text = scriptContent;
         document.head.appendChild(script);
 
-        // Now, proceed with decryption
+        // decrypt with private key
         const privateKey = forge.pki.privateKeyFromPem(privateKeyPem);
         const encryptedMessages = document.querySelectorAll('.encrypted-message');
 
@@ -26,7 +24,7 @@ function decryptMessages(privateKeyPem) {
                 const encryptedMessageHex = element.getAttribute('data-message');
                 const encryptedBytes = forge.util.hexToBytes(encryptedMessageHex);
 
-                // Decrypt the message using RSA-OAEP
+                // decrypt the message using RSA
                 const decrypted = privateKey.decrypt(encryptedBytes, 'RSA-OAEP');
 
                 // Display the decrypted message in the DOM

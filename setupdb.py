@@ -23,9 +23,7 @@ CREATE TABLE IF NOT EXISTS messages (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     sender_id INTEGER NOT NULL,
     receiver_id INTEGER NOT NULL,
-    message_encrypted TEXT NOT NULL,
-    FOREIGN KEY (sender_id) REFERENCES users (id),
-    FOREIGN KEY (receiver_id) REFERENCES users (id)
+    message_encrypted TEXT NOT NULL
 )
 ''')
 
